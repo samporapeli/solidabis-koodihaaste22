@@ -1,9 +1,10 @@
 import axios from 'axios'
+import config from './config'
 
-const api = 'http://localhost:8080/api/v1/restaurants'
+const api = config.api
 
 const getRestaurants = async (city) => {
-  return await axios.get(`${api}/${city}`)
+  return await axios.get(`${api}restaurants/${city}`)
 }
 
 export default {
