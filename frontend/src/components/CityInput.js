@@ -12,7 +12,8 @@ const CityInput = ({ setCities }) => {
   }
 
   useEffect(() => {
-    const savedValue = window.localStorage.getItem('CityInputValue')
+    const LSValue = window.localStorage.getItem('CityInputValue')
+    const savedValue = LSValue ? LSValue : ''
     setInputValue(savedValue)
     // hacky
     updateValue({

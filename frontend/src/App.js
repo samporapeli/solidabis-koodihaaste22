@@ -1,13 +1,14 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import RestaurantList from './components/RestaurantList'
 import CityInput from './components/CityInput'
+import RestaurantList from './components/RestaurantList'
+import Results from './components/Results'
+import getDatestamp from './helpers/getDatestamp'
 
 const App = () => {
   const [ cities, setCities ] = useState(null)
+  const [ restaurants, setRestaurants ] = useState({})
   const [ ownVotes, setOwnVotes ] = useState([])
-
-  const getDatestamp = () => (new Date()).toISOString().split('T')[0]
 
   const updateOwnVotes = (restaurantID, action) => {
     let newVotes = []
@@ -31,11 +32,20 @@ const App = () => {
 
   return (
     <>
-      <h1>Today's lunch options</h1>
+      <h2>Results</h2>
+      <Results restaurants={restaurants} />
+      <h2>Today's lunch options</h2>
       <CityInput setCities={setCities} />
       { cities
         ? cities.map(c =>
-          <RestaurantList key={c} city={c} ownVotes={ownVotes} updateOwnVotes={updateOwnVotes} />
+          <RestaurantList
+            key={c}
+            city={c}
+            restaurants={restaurants}
+            setRestaurants={setRestaurants}
+            ownVotes={ownVotes}
+            updateOwnVotes={updateOwnVotes}
+          />
         )
         : 'Waiting for input...'
       }

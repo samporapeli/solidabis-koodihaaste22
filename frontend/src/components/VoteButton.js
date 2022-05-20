@@ -15,7 +15,7 @@ const VoteButton = ({ restaurantID, ownVotes, updateOwnVotes }) => {
 
   useEffect(() => {
     setVoted(ownVotes.includes(restaurantID))
-  })
+  }, [ ownVotes, restaurantID ])
 
   const vote = async () => {
     setButtonText('Wait...')

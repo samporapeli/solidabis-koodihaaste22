@@ -1,35 +1,53 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
 
-const RestaurantList = ({ city, ownVotes, updateOwnVotes }) => {
-  const [ restaurantList, setRestaurantList ] = useState(null)
-
+const RestaurantList = ({
+    city,
+    restaurants,
+    setRestaurants,
+    ownVotes,
+    updateOwnVotes
+  }) => {
   useEffect(() => {
     const getRestaurants = async () => {
+      let newRestaurants = {...restaurants}
       try {
-        setRestaurantList(null)
-        const restaurants = await restaurantService.getRestaurants(city)
-        setRestaurantList(restaurants)
+        // set "loading mode"
+        setRestaurants((state) => {
+          newRestaurants = {...state}
+          newRestaurants[city.toLowerCase()] = null
+          return newRestaurants
+        })
+        // make the response and finally set restaurants
+        const response = await restaurantService.getRestaurants(city)
+        // inspiration for giving a function to prevent race condition issues:
+        // https://stackoverflow.com/questions/38065534/race-condition-in-react-setstate
+        setRestaurants((state) => {
+          newRestaurants = {...state}
+          newRestaurants[city.toLowerCase()] = response
+          return newRestaurants
+        })
       } catch (e) {
-        setRestaurantList('error')
+        newRestaurants[city.toLowerCase()] = 'error'
+        setRestaurants(newRestaurants)
       }
     }
     getRestaurants()
   }, [ city, ownVotes ])
 
-  if (!restaurantList) {
+  if (!restaurants[city.toLowerCase()]) {
     return (
       'Loading...'
     )
   }
   // for some reason api sometimes returns HTTP 200 even when city is not found?
-  else if (restaurantList === 'error' && city) {
+  else if (!restaurants[city.toLowerCase()] === 'error' && city) {
     return (
       `Error loading data for ${city}`
     )
-  } else if (city && restaurantList && restaurantList.data.restaurants.length === 0) {
+  } else if (city && restaurants[city.toLowerCase()] && restaurants[city.toLowerCase()].data.restaurants.length === 0) {
     return (
       `No restaurants for ${city}`
     )
@@ -39,11 +57,11 @@ const RestaurantList = ({ city, ownVotes, updateOwnVotes }) => {
     )
   } else return (
     <>
-      <h2>Restaurants in {capitalizeCity(city)}</h2>
+      <h3>Restaurants in {capitalizeCity(city)}</h3>
       <ul>
         {
-          restaurantList.data.restaurants.map(r =>
-            <Restaurant key={r.name} restaurant={r} ownVotes={ownVotes} updateOwnVotes={updateOwnVotes} />
+          restaurants[city.toLowerCase()].data.restaurants.map(r =>
+            <Restaurant key={r.id} restaurant={r} ownVotes={ownVotes} updateOwnVotes={updateOwnVotes} />
           )
         }
       </ul>
