@@ -3,7 +3,7 @@ import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
 
-const RestaurantList = ({ city }) => {
+const RestaurantList = ({ city, ownVotes, updateOwnVotes }) => {
   const [ restaurantList, setRestaurantList ] = useState(null)
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const RestaurantList = ({ city }) => {
       }
     }
     getRestaurants()
-  }, [ city ])
+  }, [ city, ownVotes ])
 
   if (!restaurantList) {
     return (
@@ -43,7 +43,7 @@ const RestaurantList = ({ city }) => {
       <ul>
         {
           restaurantList.data.restaurants.map(r =>
-            <Restaurant key={r.name} restaurant={r} />
+            <Restaurant key={r.name} restaurant={r} ownVotes={ownVotes} updateOwnVotes={updateOwnVotes} />
           )
         }
       </ul>
