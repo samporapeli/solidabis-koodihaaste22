@@ -1,0 +1,38 @@
+.window {
+  width: 95%;
+  max-width: 30rem;
+  margin: 1rem;
+}
+
+#results {
+  width: 18rem;
+}
+
+.window textarea {
+  max-width: 100%;
+}
+
+#restaurant-list-container {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row wrap;
+  .window {
+    margin: 1rem;
+    min-width: 30rem;
+  }
+}
+
+.restaurant-tree li {
+  margin-bottom: 1rem;
+  li {
+    margin-bottom: 0rem;
+  }
+}
+
+.restaurant-vote-section {
+  float: right;
+}
+
+.restaurant-vote-count {
+  margin-right: 0.5rem;
+}

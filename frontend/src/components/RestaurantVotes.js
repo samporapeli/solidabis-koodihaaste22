@@ -13,7 +13,7 @@ const RestaurantVotes = ({ restaurant, results }) => {
   }, [ results ])
 
   return (
-    <span>{ votes } { votes === 1 ? 'vote' : 'votes' }</span>
+    <span className='restaurant-vote-count'><em>{ votes } { votes === 1 ? 'vote' : 'votes' }</em></span>
   )
 }
 

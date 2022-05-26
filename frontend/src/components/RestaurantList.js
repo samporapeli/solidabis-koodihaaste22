@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
+import Window from '../ui/Window'
 
 const RestaurantList = ({
     city,
@@ -61,9 +62,11 @@ const RestaurantList = ({
       'Waiting for input...'
     )
   } else return (
-    <>
-      <h3>Restaurants in {capitalizeCity(city)}</h3>
-      <ul>
+    <Window
+      id={`restaurant-list-${capitalizeCity(city)}`}
+      title={`Restaurants in ${capitalizeCity(city)}`}
+    >
+      <ul className='tree-view restaurant-tree'>
         {
           restaurants[city.toLowerCase()].data.restaurants.map(r => {
             const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
@@ -77,7 +80,7 @@ const RestaurantList = ({
           })
         }
       </ul>
-    </>
+    </Window>
   )
 }
 

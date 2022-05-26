@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Window from '../ui/Window'
 
 const CityInput = ({ setCities }) => {
   const [ inputValue, setInputValue ] = useState('')
@@ -22,11 +23,18 @@ const CityInput = ({ setCities }) => {
   }, [])
 
   return (
-    <>
-      Input a city
-      <input value={inputValue} onChange={updateValue}/>
-      <br />
-    </>
+    <Window id='city-selection' title='City selection'>
+      <div className='field-row-stacked'>
+        <label for='city-input'>
+          Input cities separated by comma. Example: espoo, helsinki
+        </label>
+        <textarea
+          id='city-input'
+          value={inputValue}
+          onChange={updateValue}
+        />
+      </div>
+    </Window>
   )
 }
 

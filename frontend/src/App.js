@@ -1,4 +1,5 @@
-import './App.css'
+import './App.scss'
+import '98.css'
 import { useEffect, useState } from 'react'
 import CityInput from './components/CityInput'
 import RestaurantList from './components/RestaurantList'
@@ -8,13 +9,13 @@ import getDatestamp from './helpers/getDatestamp'
 const App = () => {
   const [ cities, setCities ] = useState(null)
   const [ restaurants, setRestaurants ] = useState({})
+  const [ results, setResults ] = useState({})
 
   return (
     <>
-      <h2>Results</h2>
-      <Results restaurants={restaurants} />
-      <h2>Today's lunch options</h2>
+      <Results restaurants={restaurants} results={results} setResults={setResults} />
       <CityInput setCities={setCities} />
+      <div id='restaurant-list-container'>
       { cities
         ? cities.map(c =>
           <RestaurantList
@@ -22,10 +23,12 @@ const App = () => {
             city={c}
             restaurants={restaurants}
             setRestaurants={setRestaurants}
+            results={results}
           />
         )
         : 'Waiting for input...'
       }
+      </div>
     </>
   )
 }

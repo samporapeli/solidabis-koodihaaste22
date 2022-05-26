@@ -5,9 +5,11 @@ import RestaurantVotes from './RestaurantVotes'
 const Restaurant = ({ restaurant, results, ownVotes, updateList }) => {
   return (
     <li key={restaurant.id}>
-      {restaurant.name} ({restaurant.openingHours ? restaurant.openingHours : 'unknown'})
-      <VoteButton restaurantID={restaurant.id} ownVotes={ownVotes} updateList={updateList} />
-      <RestaurantVotes restaurant={restaurant} results={results} />
+      <strong>{restaurant.name}</strong> ({restaurant.openingHours ? restaurant.openingHours : 'unknown'})
+      <span className='restaurant-vote-section'>
+        <RestaurantVotes restaurant={restaurant} results={results} />
+        <VoteButton restaurantID={restaurant.id} ownVotes={ownVotes} updateList={updateList} />
+      </span>
       <DishList dishes={restaurant.dishes} />
     </li>
   )
