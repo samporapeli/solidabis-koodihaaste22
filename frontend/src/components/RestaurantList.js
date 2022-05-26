@@ -1,15 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
 
 const RestaurantList = ({
     city,
+    results,
     restaurants,
     setRestaurants,
-    ownVotes,
-    updateOwnVotes
   }) => {
+  const [ updated, setUpdated ] = useState(+(new Date()))
+
   useEffect(() => {
     const getRestaurants = async () => {
       let newRestaurants = {...restaurants}
@@ -35,7 +36,11 @@ const RestaurantList = ({
       }
     }
     getRestaurants()
-  }, [ city, ownVotes ])
+  }, [ city, updated ])
+
+  const updateList = () => {
+    setUpdated(+(new Date()))
+  }
 
   if (!restaurants[city.toLowerCase()]) {
     return (
@@ -60,9 +65,16 @@ const RestaurantList = ({
       <h3>Restaurants in {capitalizeCity(city)}</h3>
       <ul>
         {
-          restaurants[city.toLowerCase()].data.restaurants.map(r =>
-            <Restaurant key={r.id} restaurant={r} ownVotes={ownVotes} updateOwnVotes={updateOwnVotes} />
-          )
+          restaurants[city.toLowerCase()].data.restaurants.map(r => {
+            const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
+            return (<Restaurant
+              key={r.id}
+              restaurant={r}
+              results={results}
+              ownVotes={ownVotes}
+              updateList={updateList}
+            />)
+          })
         }
       </ul>
     </>

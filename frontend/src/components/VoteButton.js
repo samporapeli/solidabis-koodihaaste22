@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import voteService from '../services/voteService'
 
-const VoteButton = ({ restaurantID, ownVotes, updateOwnVotes }) => {
+const VoteButton = ({ restaurantID, ownVotes, updateList }) => {
   const [ voted, setVoted ] = useState(false)
   const [ buttonText, setButtonText ] = useState('Loading...')
 
@@ -11,23 +11,20 @@ const VoteButton = ({ restaurantID, ownVotes, updateOwnVotes }) => {
 
   useEffect(() => {
     updateButtonText()
-  }, [ voted ])
+  }, [ voted, ownVotes ])
 
   useEffect(() => {
-    setVoted(ownVotes.includes(restaurantID))
+    setVoted(ownVotes === restaurantID)
   }, [ ownVotes, restaurantID ])
 
   const vote = async () => {
     setButtonText('Wait...')
     const result = await voteService.voteRestaurant(restaurantID)
     if (result.status === 200) {
-      if (voted) {
-        updateOwnVotes(restaurantID, 'remove')
-        setVoted(false)
-      } else {
-        updateOwnVotes(restaurantID, 'add')
-        setVoted(true)
-      }
+      setVoted(!voted)
+      updateList()
+    } else {
+      alert(`Failed to vote! (HTTP ${result.status})`)
     }
     updateButtonText()
   }

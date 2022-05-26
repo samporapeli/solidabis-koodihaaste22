@@ -8,27 +8,6 @@ import getDatestamp from './helpers/getDatestamp'
 const App = () => {
   const [ cities, setCities ] = useState(null)
   const [ restaurants, setRestaurants ] = useState({})
-  const [ ownVotes, setOwnVotes ] = useState([])
-
-  const updateOwnVotes = (restaurantID, action) => {
-    let newVotes = []
-    if (action === 'add') {
-      newVotes = [...ownVotes, restaurantID]
-    } else if (action === 'remove') {
-      newVotes = ownVotes.filter(id => id !== restaurantID)
-    }
-    setOwnVotes(newVotes)
-    window.localStorage.setItem(`${getDatestamp()}-ownVotes`, JSON.stringify(newVotes))
-  }
-
-  useEffect(() => {
-    const lsVotes = window.localStorage.getItem(`${getDatestamp()}-ownVotes`)
-    if (lsVotes) {
-      setOwnVotes(JSON.parse(lsVotes))
-    } else {
-      setOwnVotes([])
-    }
-  }, [])
 
   return (
     <>
@@ -43,8 +22,6 @@ const App = () => {
             city={c}
             restaurants={restaurants}
             setRestaurants={setRestaurants}
-            ownVotes={ownVotes}
-            updateOwnVotes={updateOwnVotes}
           />
         )
         : 'Waiting for input...'
