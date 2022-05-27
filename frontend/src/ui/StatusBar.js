@@ -1,8 +1,10 @@
 const StatusBar = ({ items }) => {
   return (
     <div className='status-bar'>
-      { items.map(item => 
-        <p className='status-bar-field'>{item}</p>
+      { items.map((item, i) => 
+        // using index as key is not ideal:
+        // https://reactjs.org/docs/lists-and-keys.html#keys
+        <p key={i} className='status-bar-field'>{item}</p>
       ) }
     </div>
   )
