@@ -6,6 +6,8 @@ import Window from '../ui/Window'
 
 const RestaurantList = ({
     city,
+    cities,
+    setCities,
     results,
     restaurants,
     setRestaurants,
@@ -74,31 +76,41 @@ const RestaurantList = ({
       )
   , [restaurantList, search])
 
-  if (!restaurants[city.toLowerCase()]) {
+  const close = (value) => {
+    return () => {
+      const newCities = cities.filter(c => c.toLowerCase() !== value)
+      setCities(newCities)
+    }   
+  }
+
+  if (!restaurants[lcCity]) {
     return (
       <Window
         title='Loading...'
         id={htmlID}
+        closeHandler={close(lcCity)}
       >
-        Loading...
+        Loading data for {capitalizedCity}...
       </Window>
     )
   }
   // for some reason api sometimes returns HTTP 200 even when city is not found?
-  else if (!restaurants[city.toLowerCase()] === 'error' && city) {
+  else if (!restaurants[lcCity] === 'error' && city) {
     return (
       <Window
         title='Error'
         id={htmlID}
+        closeHandler={close(lcCity)}
       >
         Error loading data for {capitalizedCity}
       </Window>
     )
-  } else if (city && restaurants[lcCity] && restaurants[lcCity].data.restaurants.length === 0) {
+  } else if (city && restaurants[lcCity] && restaurants[lcCity].data && restaurants[lcCity].data.restaurants && restaurants[lcCity].data.restaurants.length === 0) {
     return (
       <Window
         title='Error'
         id={htmlID}
+        closeHandler={close(lcCity)}
       >
         No restaurants for {capitalizedCity}
       </Window>
@@ -108,6 +120,7 @@ const RestaurantList = ({
       <Window
         title='Waiting...'
         id={htmlID}
+        closeHandler={close('')}
       >
         Waiting for input...
       </Window>
@@ -124,6 +137,7 @@ const RestaurantList = ({
             ? 'restaurant'
             : 'restaurants'} matching search term`,
       ]}
+      closeHandler={close(lcCity)}
     >
       <ul className='tree-view restaurant-tree'>
         {

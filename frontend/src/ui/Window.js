@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import StatusBar from './StatusBar'
 
-const Window = ({ id, title, children, statusItems }) => {
+const Window = ({ id, title, children, statusItems, closeHandler }) => {
   const [ minimized, setMinimized ] = useState(false)
   return (
     <div className='window' id={id}>
@@ -10,7 +10,7 @@ const Window = ({ id, title, children, statusItems }) => {
         <span className='title-bar-controls'>
           <button aria-label="Minimize" onClick={() => setMinimized(!minimized)}></button>
           <button aria-label="Maximize" onClick={() => setMinimized(false)}></button>
-          <button aria-label="Close"></button>
+          <button aria-label="Close" onClick={closeHandler}></button>
         </span>
       </div>
       <div

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Window from '../ui/Window'
 
-const CityInput = ({ setCities }) => {
+const CityInput = ({ cities, setCities }) => {
   const [ inputValue, setInputValue ] = useState('')
   const updateValue = (event) => {
     const value = event.target.value
@@ -21,6 +21,11 @@ const CityInput = ({ setCities }) => {
       target: { value: savedValue, }
     })
   }, [])
+
+  useEffect(() => {
+    if (!cities) return
+    setInputValue(cities.join(', '))
+  }, [cities])
 
   return (
     <Window id='city-selection' title='City selection'>
