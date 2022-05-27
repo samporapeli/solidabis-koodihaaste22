@@ -25,7 +25,7 @@ const App = () => {
         setResults={setResults}
         forceUpdated={resultsForceUpdated}
       />
-      <CityInput cities={cities} setCities={setCities} />
+      <CityInput cities={cities} setCities={setCities} results={results} />
       <Search search={search} setSearch={setSearch} />
       <div id='restaurant-list-container'>
       { cities

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Window from '../ui/Window'
 
-const CityInput = ({ cities, setCities }) => {
+const CityInput = ({ cities, setCities, results }) => {
   const [ inputValue, setInputValue ] = useState('')
   const updateValue = (event) => {
     const value = event.target.value
@@ -14,19 +14,21 @@ const CityInput = ({ cities, setCities }) => {
 
   useEffect(() => {
     const LSValue = window.localStorage.getItem('CityInputValue')
-    const savedValue = LSValue ? LSValue : ''
+    const resultCities = results.results ? new Set(results.results.map(r => r.city)) : ''
+    const savedValue = LSValue ? LSValue : (new Array(...resultCities)).join(', ')
     setInputValue(savedValue)
     // hacky
     updateValue({
       target: { value: savedValue, }
     })
-  }, [])
+  }, [results])
 
   useEffect(() => {
     if (!cities) return
     setInputValue(cities.join(', '))
   }, [cities])
 
+  // TODO: add buttons: load from results, clear input
   return (
     <Window id='city-selection' title='City selection'>
       <div className='field-row-stacked'>
