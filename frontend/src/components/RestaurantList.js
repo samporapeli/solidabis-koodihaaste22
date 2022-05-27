@@ -10,6 +10,8 @@ const RestaurantList = ({
     restaurants,
     setRestaurants,
     search,
+    setOwnVote,
+    updateResults,
   }) => {
   const [ updated, setUpdated ] = useState(+(new Date()))
 
@@ -128,13 +130,15 @@ const RestaurantList = ({
           filteredList.length > 0
           ? filteredList
             .map(r => {
-              const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
+              const ownVote = restaurants[city.toLowerCase()].data.alreadyVoted
               return (<Restaurant
                 key={r.id}
                 restaurant={r}
                 results={results}
-                ownVotes={ownVotes}
+                ownVote={ownVote}
+                setOwnVote={setOwnVote}
                 updateList={updateList}
+                updateResults={updateResults}
               />)
           })
           : `No restaurants matching "${search}"`

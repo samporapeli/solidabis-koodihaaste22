@@ -12,10 +12,20 @@ const App = () => {
   const [ restaurants, setRestaurants ] = useState({})
   const [ results, setResults ] = useState({})
   const [ search, setSearch ] = useState('')
+  const [ resultsForceUpdated, setResultsForceUpdated ] = useState(+(new Date()))
+
+  const updateResults = () => {
+    setResultsForceUpdated(+(new Date()))
+  }
 
   return (
     <>
-      <Results restaurants={restaurants} results={results} setResults={setResults} />
+      <Results
+        restaurants={restaurants}
+        results={results}
+        setResults={setResults}
+        forceUpdated={resultsForceUpdated}
+      />
       <CityInput setCities={setCities} />
       <Search search={search} setSearch={setSearch} />
       <div id='restaurant-list-container'>
@@ -28,6 +38,18 @@ const App = () => {
             setRestaurants={setRestaurants}
             results={results}
             search={search}
+            setOwnVote={(id) => {
+              setRestaurants((current) => {
+                const keys = Object.keys(current)
+                const newData = {...current}
+                keys.forEach(key => {
+                  if (newData[key].data)
+                    newData[key].data.alreadyVoted = id
+                })
+                return newData
+              })
+            }}
+            updateResults={updateResults}
           />
         )
         : 'Waiting for input...'

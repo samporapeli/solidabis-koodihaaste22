@@ -31,7 +31,9 @@
 }
 
 .restaurant-vote-section {
+  position: relative;
   float: right;
+  z-index: 1;
 }
 
 .restaurant-vote-count {

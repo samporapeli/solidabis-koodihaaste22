@@ -7,9 +7,7 @@ const RestaurantVotes = ({ restaurant, results }) => {
     if (!results.results)
       return
     const resultRestaurant = results.results.find(r => r.restaurantid === restaurant.id)
-    if (resultRestaurant) {
-      setVotes(resultRestaurant.votes)
-    }
+    setVotes(resultRestaurant ? resultRestaurant.votes : 0)
   }, [ results ])
 
   return (

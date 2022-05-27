@@ -3,7 +3,7 @@ import voteService from '../services/voteService'
 import DishList from './DishList'
 import Window from '../ui/Window'
 
-const Results = ({ restaurants, results, setResults }) => {
+const Results = ({ restaurants, results, setResults, forceUpdated }) => {
 
   const updateResults = async () => {
     const result = await voteService.getResults()
@@ -13,7 +13,7 @@ const Results = ({ restaurants, results, setResults }) => {
   // load results
   useEffect(() => {
     updateResults()
-  }, [])
+  }, [forceUpdated])
 
   // update results every second
   useEffect(() => {
