@@ -5,7 +5,6 @@ import CityInput from './components/CityInput'
 import Search from './components/Search'
 import RestaurantList from './components/RestaurantList'
 import Results from './components/Results'
-import getDatestamp from './helpers/getDatestamp'
 
 const App = () => {
   const [ cities, setCities ] = useState(null)
