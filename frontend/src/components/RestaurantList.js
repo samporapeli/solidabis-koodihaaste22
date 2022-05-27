@@ -9,6 +9,7 @@ const RestaurantList = ({
     results,
     restaurants,
     setRestaurants,
+    search,
   }) => {
   const [ updated, setUpdated ] = useState(+(new Date()))
 
@@ -68,15 +69,20 @@ const RestaurantList = ({
     >
       <ul className='tree-view restaurant-tree'>
         {
-          restaurants[city.toLowerCase()].data.restaurants.map(r => {
-            const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
-            return (<Restaurant
-              key={r.id}
-              restaurant={r}
-              results={results}
-              ownVotes={ownVotes}
-              updateList={updateList}
-            />)
+          restaurants[city.toLowerCase()].data.restaurants
+            .filter(r =>
+              r.name.toLowerCase().includes(search) ||
+              r.dishes.some(d => d.name.toLowerCase().includes(search))
+            )
+            .map(r => {
+              const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
+              return (<Restaurant
+                key={r.id}
+                restaurant={r}
+                results={results}
+                ownVotes={ownVotes}
+                updateList={updateList}
+              />)
           })
         }
       </ul>

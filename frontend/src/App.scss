@@ -8,8 +8,9 @@
   width: 18rem;
 }
 
-.window textarea {
+.window * textarea {
   max-width: 100%;
+  width: 100%;
 }
 
 #restaurant-list-container {
