@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
@@ -44,36 +44,89 @@ const RestaurantList = ({
     setUpdated(+(new Date()))
   }
 
+  const capitalizedCity = useMemo(() => {
+    return capitalizeCity(city)
+  }, [ city ])
+
+  const lcCity = useMemo(() => {
+    return city.toLowerCase()
+  }, [ city ])
+
+  const htmlID = useMemo(() =>
+    `restaurant-list-${capitalizedCity}`, [capitalizedCity]
+  )
+
+  const restaurantList = useMemo(() => {
+    const thisRestaurant = restaurants[city.toLowerCase()]
+    if (!thisRestaurant) return []
+    if (!thisRestaurant.data) return []
+    if (!thisRestaurant.data.restaurants) return []
+    return thisRestaurant.data.restaurants
+  }, [restaurants, city])
+
+  const filteredList = useMemo(() => 
+    restaurantList
+      .filter(r =>
+        r.name.toLowerCase().includes(search) ||
+        r.dishes.some(d => d.name.toLowerCase().includes(search))
+      )
+  , [restaurantList, search])
+
   if (!restaurants[city.toLowerCase()]) {
     return (
-      'Loading...'
+      <Window
+        title='Loading...'
+        id={htmlID}
+      >
+        Loading...
+      </Window>
     )
   }
   // for some reason api sometimes returns HTTP 200 even when city is not found?
   else if (!restaurants[city.toLowerCase()] === 'error' && city) {
     return (
-      `Error loading data for ${city}`
+      <Window
+        title='Error'
+        id={htmlID}
+      >
+        Error loading data for {capitalizedCity}
+      </Window>
     )
-  } else if (city && restaurants[city.toLowerCase()] && restaurants[city.toLowerCase()].data.restaurants.length === 0) {
+  } else if (city && restaurants[lcCity] && restaurants[lcCity].data.restaurants.length === 0) {
     return (
-      `No restaurants for ${city}`
+      <Window
+        title='Error'
+        id={htmlID}
+      >
+        No restaurants for {capitalizedCity}
+      </Window>
     )
   } else if (!city) {
     return (
-      'Waiting for input...'
+      <Window
+        title='Waiting...'
+        id={htmlID}
+      >
+        Waiting for input...
+      </Window>
     )
   } else return (
     <Window
-      id={`restaurant-list-${capitalizeCity(city)}`}
-      title={`Restaurants in ${capitalizeCity(city)}`}
+      id={htmlID}
+      title={`Restaurants in ${capitalizedCity}`}
+      statusItems={[
+        `${restaurantList.length} ${restaurantList.length === 1
+            ? 'restaurant'
+            : 'restaurants'} in ${capitalizedCity}`,
+        `${filteredList.length} ${restaurantList.length === 1
+            ? 'restaurant'
+            : 'restaurants'} matching search term`,
+      ]}
     >
       <ul className='tree-view restaurant-tree'>
         {
-          restaurants[city.toLowerCase()].data.restaurants
-            .filter(r =>
-              r.name.toLowerCase().includes(search) ||
-              r.dishes.some(d => d.name.toLowerCase().includes(search))
-            )
+          filteredList.length > 0
+          ? filteredList
             .map(r => {
               const ownVotes = restaurants[city.toLowerCase()].data.alreadyVoted
               return (<Restaurant
@@ -84,6 +137,7 @@ const RestaurantList = ({
                 updateList={updateList}
               />)
           })
+          : `No restaurants matching "${search}"`
         }
       </ul>
     </Window>

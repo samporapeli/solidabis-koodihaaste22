@@ -24,7 +24,14 @@ const Results = ({ restaurants, results, setResults }) => {
   }, [])
 
   return (
-    <Window id='results' title='Results'>
+    <Window
+      id='results'
+      title='Results'
+      statusItems={[
+          `Votes: ${results.results ? results.results.length : '-'}`,
+          `Date: ${results.date ? results.date : '-'}`,
+      ]}
+    >
       {
         results.results && results.results.length === 0
         ? <p>No votes today</p>
