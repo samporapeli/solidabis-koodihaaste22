@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import StatusBar from './StatusBar'
 
-const Window = ({ id, title, children }) => {
+const Window = ({ id, title, children, statusItems }) => {
   const [ minimized, setMinimized ] = useState(false)
   return (
     <div className='window' id={id}>
@@ -24,6 +25,7 @@ const Window = ({ id, title, children }) => {
         children
       }
       </div>
+      { statusItems ? <StatusBar items={statusItems} /> : <></> }
     </div>
   )
 }
