@@ -25,7 +25,7 @@ const CityInput = ({ setCities }) => {
   return (
     <Window id='city-selection' title='City selection'>
       <div className='field-row-stacked'>
-        <label for='city-input'>
+        <label htmlFor='city-input'>
           Input cities separated by comma. Example: espoo, helsinki
         </label>
         <textarea

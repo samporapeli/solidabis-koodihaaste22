@@ -1,22 +1,28 @@
 const DishList = ({ dishes }) => {
   if (!dishes.length)
     return (
-      <li>No menu available</li>
+      <ul>
+        <li>No menu available</li>
+      </ul>
     )
   else
     return (
-      <details open>
-        <summary>Menu</summary>
-        <ul>
-        { dishes.map(dish =>
-            <li key={dish.name}>
-              {dish.name}
-              {dish.price ? ` (${dish.price})`: ''}
-            </li>
-          )
-        }
-        </ul>
-      </details>
+      <ul>
+        <li>
+          <details open>
+            <summary>Menu</summary>
+            <ul>
+            { dishes.map(dish =>
+                <li key={dish.name}>
+                  {dish.name}
+                  {dish.price ? ` (${dish.price})`: ''}
+                </li>
+              )
+            }
+            </ul>
+          </details>
+        </li>
+      </ul>
     )
 }
 
