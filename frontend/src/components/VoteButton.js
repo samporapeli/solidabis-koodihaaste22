@@ -17,8 +17,10 @@ const VoteButton = ({ restaurantID, ownVote, setOwnVote, updateResults }) => {
     setVoted(ownVote === restaurantID)
   }, [ ownVote, restaurantID ])
 
+  const waitText = 'Wait...'
+
   const vote = async () => {
-    setButtonText('Wait...')
+    setButtonText(waitText)
     const result = await voteService.voteRestaurant(restaurantID)
     if (result.status === 200) {
       setVoted(!voted)
@@ -31,7 +33,12 @@ const VoteButton = ({ restaurantID, ownVote, setOwnVote, updateResults }) => {
   }
 
   return (
-    <button onClick={vote}>{buttonText}</button>
+    <button
+      onClick={vote}
+      disabled={buttonText === waitText}
+    >
+      {buttonText}
+    </button>
   )
 }
 
