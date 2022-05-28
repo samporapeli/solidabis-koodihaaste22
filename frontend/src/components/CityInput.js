@@ -3,32 +3,57 @@ import Window from '../ui/Window'
 
 const CityInput = ({ cities, setCities, results }) => {
   const [ inputValue, setInputValue ] = useState('')
+
   const updateValue = (event) => {
     const value = event.target.value
     const cities = value.split(',')
-    window.localStorage.setItem('CityInputValue', value)
+    // save in JSON instead of string to identify empty value from
+    // null (non-set) value
+    window.localStorage.setItem('CityInputValue', JSON.stringify({
+      value
+    }))
     setInputValue(value)
     // update parent's state
-    setCities(cities.map(c => c.trim()))
+    // and prevent infinite loops...
+    if (!event.doNotUpdateCities)
+      setCities(cities.map(c => c.trim()))
+  }
+
+  const loadResultCities = () => {
+    const resultCities = results.results ? new Set(results.results.map(r => r.city)) : new Set()
+    const resultString = (new Array(...resultCities)).join(', ')
+    updateValue({
+      target: { value: resultString, }
+    })
   }
 
   useEffect(() => {
+    if (!results.results) return
     const LSValue = window.localStorage.getItem('CityInputValue')
-    const resultCities = results.results ? new Set(results.results.map(r => r.city)) : ''
-    const savedValue = LSValue ? LSValue : (new Array(...resultCities)).join(', ')
-    setInputValue(savedValue)
-    // hacky
-    updateValue({
-      target: { value: savedValue, }
-    })
+    if (!LSValue) {
+      loadResultCities()
+      return
+    }
+    try {
+      const value = JSON.parse(LSValue).value
+      setInputValue(value)
+      // mocking event, hacky
+      updateValue({
+        target: { value, }
+      })
+    } catch {
+      loadResultCities()
+    }
   }, [results])
 
   useEffect(() => {
     if (!cities) return
-    setInputValue(cities.join(', '))
+    updateValue({
+      target: { value: cities.join(', ') },
+      doNotUpdateCities: true,
+    })
   }, [cities])
 
-  // TODO: add buttons: load from results, clear input
   return (
     <Window id='city-selection' title='City selection'>
       <div className='field-row-stacked'>
@@ -40,6 +65,19 @@ const CityInput = ({ cities, setCities, results }) => {
           value={inputValue}
           onChange={updateValue}
         />
+      </div>
+      <div className='field-row'>
+        <button
+          onClick={loadResultCities}
+          disabled={results.results ? results.results.length === 0 : true}
+        >
+          Load cities from results
+        </button>
+        <button
+          onClick={(event) => { event.target.value = ''; updateValue(event) }}
+        >
+          Clear
+        </button>
       </div>
     </Window>
   )
