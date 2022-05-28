@@ -4,6 +4,7 @@ import capitalizeCity from '../helpers/capitalizeCity'
 import Restaurant from './Restaurant'
 import Window from '../ui/Window'
 
+// this component is pretty long, but I find it difficult to split
 const RestaurantList = ({
     city,
     cities,
@@ -19,12 +20,11 @@ const RestaurantList = ({
 
   useEffect(() => {
     const getRestaurants = async () => {
-      let newRestaurants = {...restaurants}
       try {
         // set "loading mode"
         setRestaurants((state) => {
-          newRestaurants = {...state}
-          newRestaurants[city.toLowerCase()] = null
+          const newRestaurants = {...state}
+          newRestaurants[lcCity] = null
           return newRestaurants
         })
         // make the response and finally set restaurants
@@ -32,13 +32,16 @@ const RestaurantList = ({
         // inspiration for giving a function to prevent race condition issues:
         // https://stackoverflow.com/questions/38065534/race-condition-in-react-setstate
         setRestaurants((state) => {
-          newRestaurants = {...state}
-          newRestaurants[city.toLowerCase()] = response
+          const newRestaurants = {...state}
+          newRestaurants[lcCity] = response
           return newRestaurants
         })
       } catch (e) {
-        newRestaurants[city.toLowerCase()] = 'error'
-        setRestaurants(newRestaurants)
+        setRestaurants((state) => {
+          const newRestaurants = {...state}
+          newRestaurants[lcCity] = 'error'
+          return newRestaurants
+        })
       }
     }
     getRestaurants()
@@ -61,20 +64,21 @@ const RestaurantList = ({
   )
 
   const restaurantList = useMemo(() => {
-    const thisRestaurant = restaurants[city.toLowerCase()]
+    const thisRestaurant = restaurants[lcCity]
     if (!thisRestaurant) return []
     if (!thisRestaurant.data) return []
     if (!thisRestaurant.data.restaurants) return []
     return thisRestaurant.data.restaurants
   }, [restaurants, city])
 
-  const filteredList = useMemo(() => 
-    restaurantList
+  const filteredList = useMemo(() => {
+    if (!restaurantList.filter) return restaurantList
+    return restaurantList
       .filter(r =>
         r.name.toLowerCase().includes(search) ||
         r.dishes.some(d => d.name.toLowerCase().includes(search))
       )
-  , [restaurantList, search])
+  }, [restaurantList, search])
 
   const close = (value) => {
     return () => {
@@ -83,7 +87,18 @@ const RestaurantList = ({
     }   
   }
 
-  if (!restaurants[lcCity]) {
+  const statusItems = useMemo(() => {
+    const totalText = `${restaurantList.length} ${restaurantList.length === 1
+          ? 'restaurant'
+          : 'restaurants'} in ${capitalizedCity}`
+    const filteredText = `${filteredList.length} ${restaurantList.length === 1
+          ? 'restaurant'
+          : 'restaurants'} matching search term`
+
+    return [totalText, filteredText]
+  }, [restaurantList, capitalizedCity, filteredList])
+
+  if (!restaurants[lcCity] && city) {
     return (
       <Window
         title='Loading...'
@@ -95,7 +110,7 @@ const RestaurantList = ({
     )
   }
   // for some reason api sometimes returns HTTP 200 even when city is not found?
-  else if (!restaurants[lcCity] === 'error' && city) {
+  else if (restaurants[lcCity] === 'error' && city) {
     return (
       <Window
         title='Error'
@@ -105,7 +120,13 @@ const RestaurantList = ({
         Error loading data for {capitalizedCity}
       </Window>
     )
-  } else if (city && restaurants[lcCity] && restaurants[lcCity].data && restaurants[lcCity].data.restaurants && restaurants[lcCity].data.restaurants.length === 0) {
+  } else if
+    (
+      city && restaurants[lcCity] && restaurants[lcCity].data && 
+      restaurants[lcCity].data.restaurants &&
+      restaurants[lcCity].data.restaurants.length === 0
+    )
+  {
     return (
       <Window
         title='Error'
@@ -129,14 +150,7 @@ const RestaurantList = ({
     <Window
       id={htmlID}
       title={`Restaurants in ${capitalizedCity}`}
-      statusItems={[
-        `${restaurantList.length} ${restaurantList.length === 1
-            ? 'restaurant'
-            : 'restaurants'} in ${capitalizedCity}`,
-        `${filteredList.length} ${restaurantList.length === 1
-            ? 'restaurant'
-            : 'restaurants'} matching search term`,
-      ]}
+      statusItems={statusItems}
       closeHandler={close(lcCity)}
     >
       <ul className='tree-view restaurant-tree'>
@@ -144,7 +158,7 @@ const RestaurantList = ({
           filteredList.length > 0
           ? filteredList
             .map(r => {
-              const ownVote = restaurants[city.toLowerCase()].data.alreadyVoted
+              const ownVote = restaurants[lcCity].data.alreadyVoted
               return (<Restaurant
                 key={r.id}
                 restaurant={r}

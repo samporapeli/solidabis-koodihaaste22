@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import voteService from '../services/voteService'
 import DishList from './DishList'
 import Window from '../ui/Window'
@@ -9,6 +9,11 @@ const Results = ({ restaurants, results, setResults, forceUpdated }) => {
     const result = await voteService.getResults()
     setResults(result.data)
   }
+
+  const voteAmount = useMemo(() => {
+    if (!results.results) return 0
+    return results.results.reduce((sum, result) => sum + result.votes, 0)
+  }, [results])
 
   // load results
   useEffect(() => {
@@ -28,7 +33,7 @@ const Results = ({ restaurants, results, setResults, forceUpdated }) => {
       id='results'
       title='Results'
       statusItems={[
-          `Votes: ${results.results ? results.results.length : '-'}`,
+          `Votes: ${results.results ? voteAmount : '-'}`,
           `Date: ${results.date ? results.date : '-'}`,
       ]}
     >

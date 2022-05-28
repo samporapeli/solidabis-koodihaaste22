@@ -28,6 +28,8 @@ const CityInput = ({ cities, setCities, results }) => {
   }
 
   useEffect(() => {
+    // prevent setting an empty value to LS before getting a chance
+    // to check for result restaurants
     if (!results.results) return
     const LSValue = window.localStorage.getItem('CityInputValue')
     if (!LSValue) {
