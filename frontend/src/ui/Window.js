@@ -8,9 +8,10 @@ const Window = ({ id, title, children, statusItems, closeHandler }) => {
       <div className='title-bar'>
         <span className='title-bar-text'>{ title }</span>
         <span className='title-bar-controls'>
+          {/* Minimized toggles minimize, maximize unminimizes and close calls closeHandler if set, otherwise minimizes. */}
           <button aria-label="Minimize" onClick={() => setMinimized(!minimized)}></button>
           <button aria-label="Maximize" onClick={() => setMinimized(false)}></button>
-          <button aria-label="Close" onClick={closeHandler}></button>
+          <button aria-label="Close" onClick={closeHandler ? closeHandler : () => setMinimized(true) }></button>
         </span>
       </div>
       <div
