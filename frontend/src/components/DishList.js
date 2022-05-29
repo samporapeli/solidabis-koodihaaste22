@@ -1,5 +1,5 @@
 const DishList = ({ dishes }) => {
-  if (!dishes.length)
+  if (!dishes.length || dishes.every(d => d.name === ''))
     return (
       <ul>
         <li>No menu available</li>
