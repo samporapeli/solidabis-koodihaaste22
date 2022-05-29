@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react'
 import voteService from '../services/voteService'
-import DishList from './DishList'
 import Window from '../ui/Window'
 
 const Results = ({ restaurants, results, setResults, forceUpdated }) => {
