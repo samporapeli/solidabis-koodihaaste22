@@ -1,6 +1,6 @@
 import './App.scss'
 import '98.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import CityInput from './components/CityInput'
 import Search from './components/Search'
 import RestaurantList from './components/RestaurantList'
@@ -19,14 +19,18 @@ const App = () => {
 
   return (
     <>
-      <Results
-        restaurants={restaurants}
-        results={results}
-        setResults={setResults}
-        forceUpdated={resultsForceUpdated}
-      />
-      <CityInput cities={cities} setCities={setCities} results={results} />
-      <Search search={search} setSearch={setSearch} />
+      <h1>Lunch voting</h1>
+      <div id='top-item-container'>
+        <Results
+          restaurants={restaurants}
+          results={results}
+          setResults={setResults}
+          forceUpdated={resultsForceUpdated}
+        />
+        <CityInput cities={cities} setCities={setCities} results={results} />
+        <Search search={search} setSearch={setSearch} />
+      </div>
+      <h2>Restaurants by city</h2>
       <div id='restaurant-list-container'>
       { cities
         ? cities.map(c =>

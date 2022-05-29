@@ -1,7 +1,37 @@
+/* 98.css: font-family: "Pixelated MS Sans Serif", Arial; */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #C0C0C0;
+}
+
+#root {
+  background: hsl(219, 80%, 32);
+  margin: 0 auto;
+  padding: 1rem 0.2rem;
+  max-width: min(100rem, 100vw);
+  min-height: 100vh;
+  h1, h2 {
+    color: white;
+    font-family: monospace;
+  }
+}
+
+#top-item-container {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row wrap;
+  .window {
+    width: 90%;
+    margin: 1rem auto;
+  }
+}
+
 .window {
   width: 95%;
-  max-width: 30rem;
-  margin: 1rem;
+  max-width: min(30rem, 90%);
+  margin: 1rem auto;
 }
 
 #results {
@@ -19,7 +49,7 @@
   flex-flow: row wrap;
   .window {
     margin: 1rem;
-    min-width: 30rem;
+    width: 30rem;
   }
 }
 
