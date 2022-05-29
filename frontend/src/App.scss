@@ -18,6 +18,22 @@ html, body {
   }
 }
 
+header {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row wrap;
+  > * {
+    margin: auto;
+  }
+}
+
+hr {
+  border: solid 0.12rem;
+  width: 90%;
+  margin: 2rem auto;
+  color: white;
+}
+
 #top-item-container {
   display: flex;
   align-items: flex-start;

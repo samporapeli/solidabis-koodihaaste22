@@ -1,6 +1,7 @@
 import './App.scss'
 import '98.css'
 import { useState } from 'react'
+import About from './components/About'
 import CityInput from './components/CityInput'
 import Search from './components/Search'
 import RestaurantList from './components/RestaurantList'
@@ -19,7 +20,11 @@ const App = () => {
 
   return (
     <>
-      <h1>Lunch voting</h1>
+      <header>
+        <h1>Lunch voting</h1>
+        <About />
+      </header>
+      <hr />
       <div id='top-item-container'>
         <Results
           restaurants={restaurants}
