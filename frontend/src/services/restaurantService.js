@@ -7,6 +7,8 @@ const getRestaurants = async (city) => {
   return await axios.get(`${api}/restaurants/${city}`)
 }
 
-export default {
+const methods = {
   getRestaurants,
 }
+
+export default methods

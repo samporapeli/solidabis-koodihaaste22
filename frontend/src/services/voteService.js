@@ -11,7 +11,9 @@ const voteRestaurant = async (restaurantID) => {
   return await axios.post(`${api}/vote/${restaurantID}`)
 }
 
-export default {
+const methods = {
   getResults,
   voteRestaurant,
 }
+
+export default methods
