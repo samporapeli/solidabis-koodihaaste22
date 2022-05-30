@@ -17,8 +17,8 @@ const About = () => {
       <div className='field-row-stacked'>
         <span>
           <a href='https://sampo.website' target='_blank' rel="noreferrer">
-            Sampo Rapeli&lsquo;s
-          </a> solution to&nbsp;
+            Sampo Rapeli
+          </a>&lsquo;s solution to&nbsp;
           <a href='https://koodihaaste.solidabis.com/' target='_blank' rel="noreferrer">
             Solidabis&lsquo; code challenge 2022
           </a>
