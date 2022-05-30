@@ -3,7 +3,9 @@ version: "3.3"
 services:
   backend:
     image: solidabis/koodihaaste22:latest
+    restart: unless-stopped
   nginx:
     build: ./
+    restart: unless-stopped
     ports:
       - "3072:80"
