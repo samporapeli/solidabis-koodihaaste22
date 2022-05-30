@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
-import Window from './Window';
+import Window from './Window'
 
 test('renders correctly without input', () => {
   const w = render(<Window />)

@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import restaurantService from '../services/restaurantService'
 import capitalizeCity from '../helpers/capitalizeCity'
@@ -6,16 +7,16 @@ import Window from '../ui/Window'
 
 // this component is pretty long, but I find it difficult to split
 const RestaurantList = ({
-    city,
-    cities,
-    setCities,
-    results,
-    restaurants,
-    setRestaurants,
-    search,
-    setOwnVote,
-    updateResults,
-  }) => {
+  city,
+  cities,
+  setCities,
+  results,
+  restaurants,
+  setRestaurants,
+  search,
+  setOwnVote,
+  updateResults,
+}) => {
   const [ updated, setUpdated ] = useState(+(new Date()))
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const RestaurantList = ({
       try {
         // set "loading mode"
         setRestaurants((state) => {
-          const newRestaurants = {...state}
+          const newRestaurants = { ...state }
           newRestaurants[lcCity] = null
           return newRestaurants
         })
@@ -32,13 +33,13 @@ const RestaurantList = ({
         // inspiration for giving a function to prevent race condition issues:
         // https://stackoverflow.com/questions/38065534/race-condition-in-react-setstate
         setRestaurants((state) => {
-          const newRestaurants = {...state}
+          const newRestaurants = { ...state }
           newRestaurants[lcCity] = response
           return newRestaurants
         })
       } catch (e) {
         setRestaurants((state) => {
-          const newRestaurants = {...state}
+          const newRestaurants = { ...state }
           newRestaurants[lcCity] = 'error'
           return newRestaurants
         })
@@ -84,16 +85,16 @@ const RestaurantList = ({
     return () => {
       const newCities = cities.filter(c => c.toLowerCase() !== value)
       setCities(newCities)
-    }   
+    }
   }
 
   const statusItems = useMemo(() => {
     const totalText = `${restaurantList.length} ${restaurantList.length === 1
-          ? 'restaurant'
-          : 'restaurants'} in ${capitalizedCity}`
+      ? 'restaurant'
+      : 'restaurants'} in ${capitalizedCity}`
     const filteredText = `${filteredList.length} ${restaurantList.length === 1
-          ? 'restaurant'
-          : 'restaurants'} matching search term`
+      ? 'restaurant'
+      : 'restaurants'} matching search term`
 
     return [totalText, filteredText]
   }, [restaurantList, capitalizedCity, filteredList])
@@ -121,11 +122,11 @@ const RestaurantList = ({
       </Window>
     )
   } else if
-    (
-      city && restaurants[lcCity] && restaurants[lcCity].data && 
+  (
+    city && restaurants[lcCity] && restaurants[lcCity].data &&
       restaurants[lcCity].data.restaurants &&
       restaurants[lcCity].data.restaurants.length === 0
-    )
+  )
   {
     return (
       <Window
@@ -156,20 +157,20 @@ const RestaurantList = ({
       <ul className='tree-view restaurant-tree'>
         {
           filteredList.length > 0
-          ? filteredList
-            .map(r => {
-              const ownVote = restaurants[lcCity].data.alreadyVoted
-              return (<Restaurant
-                key={r.id}
-                restaurant={r}
-                results={results}
-                ownVote={ownVote}
-                setOwnVote={setOwnVote}
-                updateList={updateList}
-                updateResults={updateResults}
-              />)
-          })
-          : `No restaurants matching "${search}"`
+            ? filteredList
+              .map(r => {
+                const ownVote = restaurants[lcCity].data.alreadyVoted
+                return (<Restaurant
+                  key={r.id}
+                  restaurant={r}
+                  results={results}
+                  ownVote={ownVote}
+                  setOwnVote={setOwnVote}
+                  updateList={updateList}
+                  updateResults={updateResults}
+                />)
+              })
+            : `No restaurants matching "${search}"`
         }
       </ul>
     </Window>

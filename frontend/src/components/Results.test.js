@@ -1,24 +1,24 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import Results from './Results'
 
 const mockResults = {
-	"date": "2022-05-27",
-	"results": [
-		{
-			"votes": 21,
-			"restaurantid": "f95d7d3a-3bfc-4427-a621-bc788c0da040",
-			"name": "Kirkkonummelainen esimerkkiravintola",
-			"city": "Kirkkonummi"
-		},
-		{
-			"votes": 2,
-			"restaurantid": "2c0486fc-d4a5-4ad5-aa2a-3f0c0e87c439",
-			"name": "Mikkelin ruoka&juoma",
-			"city": "Mikkeli"
-		}
-	]
+  'date': '2022-05-27',
+  'results': [
+    {
+      'votes': 21,
+      'restaurantid': 'f95d7d3a-3bfc-4427-a621-bc788c0da040',
+      'name': 'Kirkkonummelainen esimerkkiravintola',
+      'city': 'Kirkkonummi'
+    },
+    {
+      'votes': 2,
+      'restaurantid': '2c0486fc-d4a5-4ad5-aa2a-3f0c0e87c439',
+      'name': 'Mikkelin ruoka&juoma',
+      'city': 'Mikkeli'
+    }
+  ]
 }
 
 describe('Result view', () => {
@@ -47,7 +47,7 @@ describe('Result view', () => {
     expect(r.container.querySelectorAll('li')[1]).toContainHTML(mockResults.results[1].votes.toString())
   })
   it('should show "No votes today" in case result list is empty', () => {
-    const r = render(<Results results={{ results:[] }} setResults={() => {}} />)
+    render(<Results results={{ results:[] }} setResults={() => {}} />)
     expect(screen.getByText('No votes today')).toBeDefined()
   })
 })

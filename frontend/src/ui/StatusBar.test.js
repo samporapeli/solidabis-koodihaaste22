@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import StatusBar from './StatusBar'
 
 test('status bar should render no items', () => {
@@ -21,7 +22,7 @@ test('status bar should render many items', () => {
   const contents = Array.from(Array(n)).map((e, i) => contentBase + i)
   // test for test...
   expect(contents).toHaveLength(n)
-  
+
   const sb = render(<StatusBar items={contents} />)
   expect(sb.container.querySelectorAll('.status-bar-field')).toHaveLength(n)
   contents.forEach(content =>

@@ -1,8 +1,9 @@
+import React from 'react'
 import { useEffect, useMemo } from 'react'
 import voteService from '../services/voteService'
 import Window from '../ui/Window'
 
-const Results = ({ restaurants, results, setResults, forceUpdated }) => {
+const Results = ({ results, setResults, forceUpdated }) => {
 
   const updateResults = async () => {
     const result = await voteService.getResults()
@@ -32,23 +33,23 @@ const Results = ({ restaurants, results, setResults, forceUpdated }) => {
       id='results'
       title='Results'
       statusItems={[
-          `Votes: ${results.results ? voteAmount : '-'}`,
-          `Date: ${results.date ? results.date : '-'}`,
+        `Votes: ${results.results ? voteAmount : '-'}`,
+        `Date: ${results.date ? results.date : '-'}`,
       ]}
     >
       {
         results.results && results.results.length === 0
-        ? <p>No votes today</p>
-        : <ol>
-          {
-            results.results ? results.results.map(r => (
-              <li key={r.restaurantid}>
-                {/* render the city if it's not included in the name :) */}
-                {r.name} {r.name.includes(r.city) ? '' : r.city}
+          ? <p>No votes today</p>
+          : <ol>
+            {
+              results.results ? results.results.map(r => (
+                <li key={r.restaurantid}>
+                  {/* render the city if it's not included in the name :) */}
+                  {r.name} {r.name.includes(r.city) ? '' : r.city}
                 ({r.votes} {r.votes === 1 ? 'vote' : 'votes' })
-              </li>
-            )) : 'Loading...'
-          }
+                </li>
+              )) : 'Loading...'
+            }
           </ol>
       }
     </Window>

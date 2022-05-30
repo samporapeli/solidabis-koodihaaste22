@@ -1,3 +1,4 @@
+import React from 'react'
 import Window from '../ui/Window'
 
 const Search = ({ search, setSearch }) => {

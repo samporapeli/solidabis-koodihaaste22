@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import VoteButton from './VoteButton'
 
@@ -11,14 +12,14 @@ describe('Vote button', () => {
     expect(v.container.querySelector('button')).not.toHaveAttribute('disabled')
   })
   it('should display "Unvote" when ownVote equals restaurantID', () => {
-    const rID = 'abc123' 
+    const rID = 'abc123'
     const ownVote = 'abc123'
     const v = render(<VoteButton restaurantID={rID} ownVote={ownVote} />)
     expect(rID).toEqual(ownVote)
     expect(v.container).toContainHTML('<button>Unvote</button>')
   })
   it('should change from "Vote" to "Wait..." after clicking and be disabled', async () => {
-    const rID = '098xyz' 
+    const rID = '098xyz'
     let ownVote = 'abc123'
     const v = render(<VoteButton restaurantID={rID} ownVote={ownVote} />)
     const user = userEvent.setup()

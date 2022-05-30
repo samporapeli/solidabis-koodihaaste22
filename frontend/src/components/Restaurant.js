@@ -1,3 +1,4 @@
+import React from 'react'
 import DishList from './DishList'
 import VoteButton from './VoteButton'
 import RestaurantVotes from './RestaurantVotes'

@@ -1,5 +1,6 @@
 import './App.scss'
 import '98.css'
+import React from 'react'
 import { useState } from 'react'
 import About from './components/About'
 import CityInput from './components/CityInput'
@@ -37,33 +38,33 @@ const App = () => {
       </div>
       <h2>Restaurants by city</h2>
       <div id='restaurant-list-container'>
-      { cities
-        ? cities.map(c =>
-          <RestaurantList
-            key={c}
-            city={c}
-            cities={cities}
-            setCities={setCities}
-            restaurants={restaurants}
-            setRestaurants={setRestaurants}
-            results={results}
-            search={search}
-            setOwnVote={(id) => {
-              setRestaurants((current) => {
-                const keys = Object.keys(current)
-                const newData = {...current}
-                keys.forEach(key => {
-                  if (newData[key].data)
-                    newData[key].data.alreadyVoted = id
+        { cities
+          ? cities.map(c =>
+            <RestaurantList
+              key={c}
+              city={c}
+              cities={cities}
+              setCities={setCities}
+              restaurants={restaurants}
+              setRestaurants={setRestaurants}
+              results={results}
+              search={search}
+              setOwnVote={(id) => {
+                setRestaurants((current) => {
+                  const keys = Object.keys(current)
+                  const newData = { ...current }
+                  keys.forEach(key => {
+                    if (newData[key].data)
+                      newData[key].data.alreadyVoted = id
+                  })
+                  return newData
                 })
-                return newData
-              })
-            }}
-            updateResults={updateResults}
-          />
-        )
-        : 'Waiting for input...'
-      }
+              }}
+              updateResults={updateResults}
+            />
+          )
+          : 'Waiting for input...'
+        }
       </div>
     </>
   )

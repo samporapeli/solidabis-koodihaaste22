@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import StatusBar from './StatusBar'
 
@@ -18,13 +19,13 @@ const Window = ({ id, title, children, statusItems, closeHandler }) => {
         className='window-body'
         style={
           minimized
-          ? { display: 'none' }
-          : { display: 'block' }
+            ? { display: 'none' }
+            : { display: 'block' }
         }
       >
-      {
-        children
-      }
+        {
+          children
+        }
       </div>
       { statusItems ? <StatusBar items={statusItems} /> : <></> }
     </div>

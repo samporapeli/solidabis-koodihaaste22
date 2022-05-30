@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import App from './App'
 
 test('renders an h1 element', () => {
   const app = render(<App />)

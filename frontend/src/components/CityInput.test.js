@@ -1,23 +1,24 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import CityInput from './CityInput'
 
 const emptyResults = {
-	"date": "2022-05-28",
-	"results": []
+  'date': '2022-05-28',
+  'results': []
 }
 
 const mockResults = {
-	"date": "2022-05-28",
-	"results": [
-		{
-			"votes": 1,
-			"restaurantid": "b72d461c1fe27d781d244eab9704ffff5b49c9e675fd685d2a6e3960724afcf3",
-			"name": "Shell HelmiSimpukka Espoo Lahnus",
-			"city": "Espoo"
-		}
-	]
+  'date': '2022-05-28',
+  'results': [
+    {
+      'votes': 1,
+      'restaurantid': 'b72d461c1fe27d781d244eab9704ffff5b49c9e675fd685d2a6e3960724afcf3',
+      'name': 'Shell HelmiSimpukka Espoo Lahnus',
+      'city': 'Espoo'
+    }
+  ]
 }
 
 describe('City input', () => {
@@ -33,7 +34,7 @@ describe('City input', () => {
   })
   it('should set cities correctly on input', async () => {
     const mockSet = jest.fn()
-    const ci = render(<CityInput results={mockResults} cities={[]} setCities={mockSet} />)
+    render(<CityInput results={mockResults} cities={[]} setCities={mockSet} />)
     const user = userEvent.setup()
 
     await user.type(screen.getByRole('textbox'), 'abc, 123,abba')
@@ -43,7 +44,7 @@ describe('City input', () => {
   })
   it('should clear cities when clicked clear button', async () => {
     const mockSet = jest.fn()
-    const ci = render(<CityInput results={mockResults} cities={[]} setCities={mockSet} />)
+    render(<CityInput results={mockResults} cities={[]} setCities={mockSet} />)
     const user = userEvent.setup()
 
     await user.type(screen.getByRole('textbox'), 'abc, 123,abba')
@@ -52,7 +53,7 @@ describe('City input', () => {
     expect(mockSet.mock.lastCall[0]).toEqual([''])
   })
   it('should set input value by cities', () => {
-    const ci = render(<CityInput results={mockResults} cities={['city A', 'city B']} setCities={() => {}} />)
+    render(<CityInput results={mockResults} cities={['city A', 'city B']} setCities={() => {}} />)
     expect(screen.getByRole('textbox')).toContainHTML('city A, city B')
   })
   it('should access localstorage', () => {
@@ -66,7 +67,7 @@ describe('City input', () => {
     })
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(0)
     expect(window.localStorage.setItem.mock.lastCall).not.toBeDefined()
-    const ci = render(<CityInput results={mockResults} cities={['City A', 'City B']} setCities={() => {}} />)
+    render(<CityInput results={mockResults} cities={['City A', 'City B']} setCities={() => {}} />)
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(1)
     expect(window.localStorage.setItem.mock.lastCall[1]).toEqual(JSON.stringify({
       value: 'City A, City B'

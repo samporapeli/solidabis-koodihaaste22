@@ -1,3 +1,4 @@
+import React from 'react'
 const DishList = ({ dishes }) => {
   if (!dishes.length || dishes.every(d => d.name === ''))
     return (
@@ -12,13 +13,13 @@ const DishList = ({ dishes }) => {
           <details open>
             <summary>Menu</summary>
             <ul>
-            { dishes.map(dish =>
+              { dishes.map(dish =>
                 <li key={dish.name}>
                   {dish.name}
                   {dish.price ? ` (${dish.price})`: ''}
                 </li>
               )
-            }
+              }
             </ul>
           </details>
         </li>

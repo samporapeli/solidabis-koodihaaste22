@@ -1,27 +1,28 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import DishList from './DishList'
 
 const mockDishes = [
   {
-    "name": "First test meal",
-    "price": "10,90e",
-    "attributes": []
+    'name': 'First test meal',
+    'price': '10,90e',
+    'attributes': []
   },
   {
-    "name": "Keittiön valinta",
-    "price": "10,90e",
-    "attributes": []
+    'name': 'Keittiön valinta',
+    'price': '10,90e',
+    'attributes': []
   },
   {
-    "name": "Linssikeitto",
-    "price": "7,20e",
-    "attributes": []
+    'name': 'Linssikeitto',
+    'price': '7,20e',
+    'attributes': []
   },
   {
-    "name": "Koodarin leike",
-    "price": "12,20e",
-    "attributes": []
+    'name': 'Koodarin leike',
+    'price': '12,20e',
+    'attributes': []
   }
 ]
 
