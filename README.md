@@ -74,6 +74,7 @@ npm run lint
 # all tests
 # NB! cypress tests assume that there are no votes given
 # restart/reset backend if necessary
+# additionally, frontend must be running while e2e testing
 npm run tests
 
 # jest unit tests
@@ -82,6 +83,10 @@ CI=true npm test
 # open cypress to run e2e tests manually
 npm run cypress
 ```
+
+Please note that `npm run tests` requires that both backend and frontend are
+running, as they are not started automatically. Also, there must be no votes
+given in order for Cypress tests to pass; reset backend manually if needed.
 
 When using `npm run tests`, npm runs first unit tests (Jest), and if they pass,
 it will run end-to-end tests (Cypress). There's definitely room for improvement
