@@ -14,8 +14,8 @@ with React, I learned new things. Unit testing React application felt a bit
 difficult, and I'm afraid many of my tests are too much focused on
 implementation details like precise wordings. However, tests are located in the
 same directory as the components, so keeping them up-to-date shouldn't be too
-tedious. I also found bugs in my components while writing tests, so totally
-worth it!
+tedious. I also found bugs in my components while writing tests, so it was
+totally worth it!
 
 I'm proud of my voting mechanism's smoothness and some little details, like
 closing restaurant list windows from the title bar and automatically loading
@@ -35,13 +35,14 @@ than it currently does.
 * React (frontend framework)
 * Axios (requests to backend)
 * [98.css](https://github.com/jdan/98.css/) (CSS design system)
-* SASS (styling)
+* SASS (styles)
 
 ### Development and support tools
 * Node LTS 16 (React transpiling, testing, linting)
 * Mozilla Firefox 91.8.0esr (web browser)
 * ESLint (code linting)
-* Jest, React Testing Library (unit tests)
+* Jest, React Testing Library (unit testing)
+* Cypress (end-to-end testing)
 * Docker, Docker Compose (production containers and orchestration)
     * Alpine Linux (container operating system)
     * Nginx (web server)
@@ -67,19 +68,35 @@ npm start
 Code linting and testing:
 ```bash
 # in frontend directory
+
 npm run lint
+
+# all tests
+# NB! cypress tests assume that there are no votes given
+# restart/reset backend if necessary
+npm run tests
+
+# jest unit tests
 CI=true npm test
+
+# open cypress to run e2e tests manually
+npm run cypress
 ```
 
+When using `npm run tests`, npm runs first unit tests (Jest), and if they pass,
+it will run end-to-end tests (Cypress). There's definitely room for improvement
+in tests, especially the e2e tests only test some part of the features. E.g.
+giving multiple votes (by different users) is not tested automatically at all.
+
 ## Production setup
-To build frontend, start backend and serve files run
+To build frontend, start backend, and serve files run
 ```
 docker-compose up
 ```
 After changes, rebuild the container using `--build` argument.
 
-Docker exposes port [3072](http://localhost:3072) by default, it can be changed
-in `docker-compose.yml`.
+Docker Compose exposes port [3072](http://localhost:3072) by default, it can be
+changed in `docker-compose.yml`.
 
 If the application is not ran on the root path of the server (e.g.
 https://app.example.com/), create a `.env` file in the frontend directory with
