@@ -19,8 +19,8 @@ I'm proud of my voting mechanism's smoothness and some little details, like
 closing restaurant list windows from the title bar and automatically loading
 city list based on either localStorage saved values or results list. I also
 think the dockerized production setup is cool. There is still room for
-improvement, for example the behavior of the city selection input (other
-modifications than appending text to the list can be difficult), testing, error
+improvement, for example the behavior of the city selection input (modifying
+text anywhere else than at the end of it doesn't work well), testing, error
 handling and handling situations of having the app open on many browser tabs.
 It'd also be cool if the windows could be moved around by dragging the title
 bars, but that doesn't seem necessary. To make this application more usable, it

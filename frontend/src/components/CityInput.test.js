@@ -40,21 +40,29 @@ describe('City input', () => {
     await user.type(screen.getByRole('textbox'), 'abc, 123,abba')
 
     expect(mockSet.mock.lastCall[0]).toHaveLength(3)
-    expect(mockSet.mock.lastCall[0]).toEqual(['abc', '123', 'abba'])
+    expect(mockSet.mock.lastCall[0]).toEqual(['Abc', '123', 'Abba'])
+  })
+  it('should not allow duplicate cities', async () => {
+    const c = render(<CityInput results={mockResults} cities={[]} setCities={() => {}} />)
+    const user = userEvent.setup()
+
+    await user.type(screen.getByRole('textbox'), 'espoo,Espoo,eSPOO,iisalmi,ESPOO,IISALMI,espoo')
+
+    expect(c.container).toContainHTML('Espoo,Iisalmi')
   })
   it('should clear cities when clicked clear button', async () => {
     const mockSet = jest.fn()
     render(<CityInput results={mockResults} cities={[]} setCities={mockSet} />)
     const user = userEvent.setup()
 
-    await user.type(screen.getByRole('textbox'), 'abc, 123,abba')
+    await user.type(screen.getByRole('textbox'), 'abc, 123abba')
 
     await user.click(screen.getByText('Clear'))
     expect(mockSet.mock.lastCall[0]).toEqual([''])
   })
   it('should set input value by cities', () => {
-    render(<CityInput results={mockResults} cities={['city A', 'city B']} setCities={() => {}} />)
-    expect(screen.getByRole('textbox')).toContainHTML('city A, city B')
+    render(<CityInput results={mockResults} cities={['cityA', 'cityB']} setCities={() => {}} />)
+    expect(screen.getByRole('textbox')).toContainHTML('Citya,Cityb')
   })
   it('should access localstorage', () => {
     // thanks https://javascript.plainenglish.io/testing-local-storage-with-testing-library-580f74e8805b
@@ -67,10 +75,10 @@ describe('City input', () => {
     })
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(0)
     expect(window.localStorage.setItem.mock.lastCall).not.toBeDefined()
-    render(<CityInput results={mockResults} cities={['City A', 'City B']} setCities={() => {}} />)
+    render(<CityInput results={mockResults} cities={['cityA', 'cityB']} setCities={() => {}} />)
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(1)
     expect(window.localStorage.setItem.mock.lastCall[1]).toEqual(JSON.stringify({
-      value: 'City A, City B'
+      value: 'Citya,Cityb'
     }))
   })
 })
