@@ -1,11 +1,13 @@
 # Solidabis koodihaaste 2022
 
 ## Project description
-I wrote the frontend in React and didn't modify the backend. The frontend is
-open source, licensed under GNU AGPLv3. I wanted to try a CSS framework that
-has the look of an old computer UI. 98.css proved to be a good framework as it
-relies on semantic HTML and didn't make me write class names on every
-component.
+I wrote the frontend in React and didn't make any changes to the backend. The
+frontend is free software, licensed under GNU AGPLv3. I wanted to try a CSS
+framework that has the look of an old computer UI. 98.css proved to be a good
+framework as it relies on semantic HTML and didn't make me write class names on
+every component. The frontend was built for desktops (as I suppose that would
+be what users at many workplaces would have), but it should work well on
+mobile, too.
 
 Coding the project was fun, and even though I was already somewhat familiar
 with React, I learned new things. Unit testing React application felt a bit
@@ -36,7 +38,7 @@ than it currently does.
 * SASS (styling)
 
 ### Development and support tools
-* Node LTS 16 (transpiling React)
+* Node LTS 16 (React transpiling, testing, linting)
 * Mozilla Firefox 91.8.0esr (web browser)
 * ESLint (code linting)
 * Jest, React Testing Library (unit tests)
@@ -44,7 +46,7 @@ than it currently does.
     * Alpine Linux (container operating system)
     * Nginx (web server)
 * Debian GNU/Linux bookworm/sid (development machine operating system)
-* Neovim (text editor)
+* Neovim (my text editor of choice)
 * [Lily58](https://sampo.website/blog/en/2021/lily58/) (keyboard :smile:)
 
 ## Development setup
@@ -79,8 +81,9 @@ After changes, rebuild the container using `--build` argument.
 Docker exposes port [3072](http://localhost:3072) by default, it can be changed
 in `docker-compose.yml`.
 
-If the application is not run on the root path of the server, create a `.env`
-file in the frontend directory with desired path. For example, if running on
+If the application is not ran on the root path of the server (e.g.
+https://app.example.com/), create a `.env` file in the frontend directory with
+desired path. For example, if running on
 https://sampo.website/app/solidabis-koodihaaste22, `.env` would look like this:
 
 ```bash
