@@ -6,16 +6,21 @@ html, body {
   background-color: #C0C0C0;
 }
 
+h1, h2 {
+  color: white;
+  font-family: monospace;
+}
+
+h2 {
+  margin: 1rem;
+}
+
 #root {
   background: hsl(219, 80%, 32%);
   margin: 0 auto;
   padding: 1rem 0.2rem;
   max-width: min(100rem, 100vw);
   min-height: 100vh;
-  h1, h2 {
-    color: white;
-    font-family: monospace;
-  }
 }
 
 header {
