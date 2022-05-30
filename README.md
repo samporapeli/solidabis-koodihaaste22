@@ -76,7 +76,17 @@ docker-compose up
 ```
 After changes, rebuild the container using `--build` argument.
 
-Docker exposes port [3072](http://localhost:3072) by default, it can be changed in `docker-compose.yml`.
+Docker exposes port [3072](http://localhost:3072) by default, it can be changed
+in `docker-compose.yml`.
+
+If the application is not run on the root path of the server, create a `.env`
+file in the frontend directory with desired path. For example, if running on
+https://sampo.website/app/solidabis-koodihaaste22, `.env` would look like this:
+
+```bash
+PUBLIC_URL=https://sampo.website/app/solidabis-koodihaaste22
+```
+Remember to rebuild after changes!
 
 <hr />
 
